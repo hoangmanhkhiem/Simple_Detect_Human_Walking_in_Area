@@ -2,7 +2,17 @@ import cv2
 cap = cv2.VideoCapture(0)  # Sử dụng 0 để sử dụng camera mặc định, hoặc thay đổi thành tên file video
 hog = cv2.HOGDescriptor()
 hog.setSVMDetector(cv2.HOGDescriptor_getDefaultPeopleDetector())
-roi_x, roi_y, roi_width, roi_height = 100, 100, 200, 200
+screen_width, screen_height = cap.get(3), cap.get(4)
+distance_in_meters = 5
+roi_width = int(screen_width)
+roi_height = int(screen_height)
+
+pixels_per_meter = 100
+roi_width_pixels = int(roi_width * pixels_per_meter)
+roi_height_pixels = int(roi_height * pixels_per_meter)
+
+roi_x, roi_y = 0, 0  # Đặt vùng quan tâm ở góc trái trên của frame
+roi_width, roi_height = roi_width_pixels, roi_height_pixels
 
 while True:
     ret, frame = cap.read()
